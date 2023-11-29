@@ -5,6 +5,8 @@ import requests
 from flask import Flask, Response, request, stream_with_context
 from flask_cors import CORS
 
+from auth import auth
+
 app = Flask(__name__)
 CORS(app)
 
@@ -12,6 +14,7 @@ OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", 8080)
 
 
 @app.route('/', methods=['POST'])
+@auth.login_required
 def chat():
     data = request.get_json()
     content = data.get('content', '')
